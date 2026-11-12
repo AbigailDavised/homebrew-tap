@@ -1,12 +1,13 @@
-# 🍺 AbigailDavised Homebrew Tap
+# 🍺 ChineseWorkSheet Homebrew Tap
 
 [![Tap Maintenance](https://img.shields.io/badge/tap-active-brightgreen.svg)](https://github.com/AbigailDavised/homebrew-tap)
-[![Formulas](https://img.shields.io/badge/formulas-9%20available-blue.svg)](https://github.com/AbigailDavised/homebrew-tap/tree/main/Formula)
+[![Homebrew](https://img.shields.io/badge/homebrew-chineseworksheet--cli-blue.svg)](https://github.com/AbigailDavised/homebrew-tap/blob/main/Formula/chineseworksheet-cli.rb)
+[![Platform: macOS & Linux](https://img.shields.io/badge/platform-macOS%20%7C%20Linux-lightgrey.svg)](https://chineseworksheet.com)
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](./LICENSE)
 
-Official Homebrew Tap maintaining production-grade developer utilities, domain calculation engines, and Model Context Protocol (MCP) command-line interfaces.
+Official Homebrew Tap maintaining command-line tools and Model Context Protocol (MCP) clients for [**ChineseWorkSheet (chineseworksheet.com)**](https://chineseworksheet.com).
 
-All formulas are pre-compiled, cryptographically verified against SHA-256 tarball hashes, and run natively across macOS (Apple Silicon / Intel) and Linux.
+This tap packages `chineseworksheet-cli`, a native terminal utility for educators, linguists, and software engineers to calculate physical Chinese handwriting worksheet grid geometry, verify Hanzi stroke order rules, analyze vocabulary against HSK 3.0 standards, and convert Mandarin Pinyin tone formats offline or in automated CI/CD pipelines.
 
 ---
 
@@ -17,67 +18,95 @@ All formulas are pre-compiled, cryptographically verified against SHA-256 tarbal
 brew tap AbigailDavised/tap
 ```
 
-### 2. Install any tool
+### 2. Install `chineseworksheet-cli`
 ```bash
-# Example: Install Chinese worksheet generator CLI
 brew install chineseworksheet-cli
+```
 
-# Example: Install travel eSIM data usage calculator CLI
-brew install esimtao-cli
-
-# Example: Install French Horn acoustics & fingering reference CLI
-brew install hornlib-cli
+### 3. Verify installation
+```bash
+chineseworksheet --help
+# or
+chineseworksheet-cli --help
 ```
 
 ---
 
-## 📦 Available Formulas & Official Workbenches
+## 🔧 Features & Capabilities
 
-| [`chineseworksheet-cli`](https://chineseworksheet.com) | Education | `brew install chineseworksheet-cli` | Printable Chinese handwriting worksheet grid geometry, stroke rules & HSK analyzer | [`chineseworksheet.com`](https://chineseworksheet.com) |
-| [`esimtao-cli`](https://esimtao.com) | Travel & Utilities | `brew install esimtao-cli` | Global travel eSIM data usage, iPhone/Android compatibility & pricing calculator | [`esimtao.com`](https://esimtao.com) |
-| [`chinamedvisit-cli`](https://chinamedvisit.com) | Healthcare | `brew install chinamedvisit-cli` | China Tier-3A hospital medical cost estimator vs US/UK & clinic finder | [`chinamedvisit.com`](https://chinamedvisit.com) |
-| [`hornlib-cli`](https://hornlib.com) | Music Education | `brew install hornlib-cli` | French Horn F/Bb double horn fingering charts, transposition & acoustics | [`hornlib.com`](https://hornlib.com) |
-| [`mahjonghandbook-cli`](https://mahjonghandbook.com) | Gaming & Recreation | `brew install mahjonghandbook-cli` | American NMJL, Chinese MCR and Japanese Riichi mahjong scoring rules | [`mahjonghandbook.com`](https://mahjonghandbook.com) |
-| [`cardworthscanner-cli`](https://cardworthscanner.com) | Collectibles | `brew install cardworthscanner-cli` | TCG Pokemon, MTG, Yugioh card market pricing & condition grading | [`cardworthscanner.com`](https://cardworthscanner.com) |
-| [`locatepic-cli`](https://locatepic.com) | OSINT & Forensics | `brew install locatepic-cli` | Visual OSINT geolocation forensic clues & EXIF photo metadata scanner | [`locatepic.com`](https://locatepic.com) |
-| [`paintcolormatcher-cli`](https://paintcolormatcher.com) | Design & Architecture | `brew install paintcolormatcher-cli` | Sherwin-Williams & Benjamin Moore paint color delta-E matcher | [`paintcolormatcher.com`](https://paintcolormatcher.com) |
-| [`labelqueue-cli`](https://labelqueue.com) | Office & Productivity | `brew install labelqueue-cli` | Avery printable shipping & return address label layout generator | [`labelqueue.com`](https://labelqueue.com) |
+`chineseworksheet-cli` connects directly to [ChineseWorkSheet](https://chineseworksheet.com)'s stateless computation engines and provides six core functional commands:
 
----
-
-## 🛠️ Usage Examples
-
-Each formula exposes both a full binary name and a concise domain alias:
+### 1. Vector Grid Geometry Computation
+Computes exact physical millimeter dimensions, cell counts, padding, and print boundaries for ISO A4 and US Letter sheets across classical Chinese practice grid types:
+- **Tian Zi Ge (田字格)**: Classical quadrant grid for character centering.
+- **Mi Zi Ge (米字格)**: 8-directional compass grid for stroke proportions.
+- **Jiu Gong Ge (九宫格)**: 9-square grid for structural radical balancing.
+- **Hui Zi Ge (回字格)**: Nested concentric boundary grid for density control.
 
 ```bash
-# 1. Chinese Handwriting Worksheet Geometry (ChineseWorkSheet)
-chineseworksheet tools
-chineseworksheet demo
+# Calculate A4 Tian Zi Ge grid specifications with 16mm box size
 chineseworksheet call calculate_worksheet_grid_geometry '{"paperSize":"A4","gridType":"tian_zi_ge","boxSizeMm":16}'
+```
 
-# 2. Travel eSIM Data Usage & Compatibility (EsimTao)
-esimtao demo
-esimtao call calculate_esim_data_usage '{"days":7,"dailyUsageLevel":"moderate","hotspotShare":false}'
+### 2. Official Ministry of Education Stroke Order Verification
+Retrieves authoritative stroke order rules (e.g., horizontal before vertical, top-to-bottom, left-to-right, outside-before-inside, center-before-sides) and decomposes characters into standard calligraphy stroke primitives (横, 竖, 撇, 捺, 点, 提, 折, 钩).
 
-# 3. China Hospital Cost Estimator (ChinaMedVisit)
-chinamedvisit demo
-chinamedvisit call estimate_china_medical_cost '{"procedure":"PET-CT scan","currency":"USD"}'
+```bash
+chineseworksheet call lookup_chinese_stroke_order_rules '{"hanziCharacter":"永"}'
+```
 
-# 4. French Horn Acoustics & Intonation (HornLib)
-hornlib demo
-hornlib call lookup_french_horn_fingering '{"note":"G4","horn_type":"double"}'
+### 3. HSK 3.0 & 2.0 Vocabulary Difficulty Analyzer
+Analyzes vocabulary paragraphs or character lists, classifying words into official HSK 3.0 tiers (Band 1 through Band 9) and CEFR language proficiency equivalents (A1 to C2).
+
+```bash
+chineseworksheet call analyze_hsk_vocabulary_level '{"text":"今天的天气非常好，我们一起去公园散步吧。"}'
+```
+
+### 4. Mandarin Pinyin Diacritic & Tone Converter
+Converts between numbered Pinyin (e.g. `zhong1 wen2`) and Unicode tone marks (`zhōng wén`), decomposes syllables into Initial/Final/Tone, and applies standard vowel placement hierarchy.
+
+```bash
+chineseworksheet call convert_pinyin_tone_format '{"pinyinText":"ni3 hao3 ma"}'
+```
+
+### 5. Kangxi 214 Radicals Decomposition
+Explores semantic Kangxi radicals with stroke counts, structural positions, and high-frequency character examples.
+
+```bash
+chineseworksheet call lookup_kangxi_radical_info '{"radical":"氵"}'
+```
+
+### 6. Curriculum Practice Pack Generator
+Generates structured handwriting lesson plans and direct vector PDF worksheet links matching student grade level and proficiency targets.
+
+```bash
+chineseworksheet call recommend_chinese_practice_pack '{"learnerLevel":"beginner","ageGroup":"elementary"}'
 ```
 
 ---
 
-## 🔒 Security & Verification
+## 🌐 Official Web Workbenches
 
-- Every formula is signed and pinned to an immutable release package on [registry.npmjs.org](https://registry.npmjs.org).
-- Integrates seamlessly with remote stateless MCP endpoints over Streamable HTTP (`POST /api/mcp`).
-- Distributed under the permissive [MIT License](https://opensource.org/licenses/MIT).
+For interactive vector PDF generation, live browser previews, and printable custom sheets, visit:
+
+- 🖨️ **[Custom Hanzi Worksheet Generator](https://chineseworksheet.com/generator)**: Generate customized printable A4/Letter PDF worksheets with stroke order guides and Pinyin tone bars.
+- ✍️ **[Hanzi Stroke Order & Calligraphy Rules](https://chineseworksheet.com/strokes)**: Visual stroke-by-stroke animation and calligraphy rules reference.
+- 📊 **[HSK 3.0 Vocabulary Difficulty Grader](https://chineseworksheet.com/hsk-checker)**: Level grading tool for Chinese text corpora.
+- 🔤 **[Mandarin Pinyin Tone Converter](https://chineseworksheet.com/pinyin-converter)**: Online converter for tone marks and numeric formats.
+- 📖 **[Kangxi 214 Radicals Explorer](https://chineseworksheet.com/radicals)**: Complete radical index and stroke count charts.
 
 ---
 
-## 🤝 Contributing & Issues
+## 🔒 Security & Packaging
 
-Found a bug or need a feature in any of our CLIs? Please open an issue at the respective project repository or in this tap's [issue tracker](https://github.com/AbigailDavised/homebrew-tap/issues).
+- **Upstream Release**: Cryptographically verified against release tarballs from [registry.npmjs.org/chineseworksheet-cli](https://registry.npmjs.org/chineseworksheet-cli).
+- **Stateless MCP Protocol**: Remote tool calls route over secure HTTPS to `https://chineseworksheet.com/api/mcp` with zero credential retention.
+- **Audit**: All formulas in this tap conform to Homebrew syntax rules and RuboCop standards.
+
+---
+
+## 📄 License
+
+Distributed under the [MIT License](https://opensource.org/licenses/MIT).
+
+Copyright (c) 2026 [ChineseWorkSheet](https://chineseworksheet.com). All rights reserved.
